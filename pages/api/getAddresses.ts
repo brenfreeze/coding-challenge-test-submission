@@ -26,26 +26,25 @@ export default async function handle(
     });
   }
 
-  /** TODO: Implement the validation logic to ensure input value
-   *  is all digits and non negative
-   */
   const isStrictlyNumeric = (value: string) => {
-    return true;
+    if (value.length === 0) {
+      return false;
+    } 
+    return !isNaN(Number(value)) && Number(value) >= 0;
   };
 
-  /** TODO: Refactor the code below so there is no duplication of logic for postCode/streetNumber digit checks. */
-  if (!isStrictlyNumeric(postcode as string)) {
-    return res.status(400).send({
-      status: "error",
-      errormessage: "Postcode must be all digits and non negative!",
-    });
-  }
+  const numericFields = [
+    { value: postcode, name: "Postcode", errorMsg: "Postcode must be all digits and non negative!" },
+    { value: streetnumber, name: "Street Number", errorMsg: "Street Number must be all digits and non negative!" }
+  ];
 
-  if (!isStrictlyNumeric(streetnumber as string)) {
-    return res.status(400).send({
-      status: "error",
-      errormessage: "Street Number must be all digits and non negative!",
-    });
+  for (const field of numericFields) {
+    if (!isStrictlyNumeric(field.value as string)) {
+      return res.status(400).send({
+        status: "error",
+        errormessage: field.errorMsg,
+      });
+    }
   }
 
   const mockAddresses = generateMockAddresses(
