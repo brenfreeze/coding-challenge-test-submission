@@ -5,7 +5,6 @@
 }
 
 .remove {
-  --color-brand: var(--color-accent);
   margin-left: auto;
 }
 

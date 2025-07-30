@@ -11,8 +11,8 @@ import useAddressBook from "@/hooks/useAddressBook";
 import styles from "./App.module.css";
 import { Address as AddressType } from "./types";
 import useForm from "@/hooks/useForm";
-import AddressSearch from "@/components/AddressSearch/AddressSearch";
-import PersonForm from "@/components/PersonForm/PersonForm";
+import Form from "@/components/Form/Form";
+import ErrorMessage from "@/components/ErrorMessage/ErrorMessage";
 
 function App() {
   const { state, handleChange, reset } = useForm({
@@ -110,12 +110,15 @@ function App() {
             Enter an address by postcode add personal info and done! 👏
           </small>
         </h1>
-        <AddressSearch
-          handleAddressSubmit={handleAddressSubmit}
-          handleChange={handleChange}
-          state={state}
+
+        <Form
+          label="🏠 Find an address"
           loading={loading}
-        /> 
+          formEntries={[{ name: "postCode", placeholder: "Post Code", extraProps: { onChange: handleChange, value: state.postCode } }, { name: "houseNumber", placeholder: "House number", extraProps: { onChange: handleChange, value: state.houseNumber } }]}
+          onFormSubmit={handleAddressSubmit}
+          submitText="Find"
+        />
+
         {addresses.length > 0 &&
           addresses.map((address) => {
             return (
@@ -130,15 +133,16 @@ function App() {
             );
           })}
         {state.selectedAddress && (
-          <PersonForm
-            handlePersonSubmit={handlePersonSubmit}
-            handleChange={handleChange}
-            state={state}
+          <Form
+            label="✏️ Add personal info to address"
+            loading={loading}
+            formEntries={[{ name: "firstName", placeholder: "First name", extraProps: { onChange: handleChange, value: state.firstName } }, { name: "lastName", placeholder: "Last name", extraProps: { onChange: handleChange, value: state.lastName } }]}
+            onFormSubmit={handlePersonSubmit}
+            submitText="Save"
           />
         )}
 
-        {/* TODO: Create an <ErrorMessage /> component for displaying an error message */}
-        {error && <div className="error">{error}</div>}
+        {error && <ErrorMessage error={error} />}
 
         <Button type="button" variant="secondary" onClick={handleClearAllFields}>Clear all fields</Button>
       </Section>

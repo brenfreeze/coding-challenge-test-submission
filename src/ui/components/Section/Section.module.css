@@ -3,10 +3,16 @@
   border-radius: var(--border-radius-xl);
   box-shadow: 0 15px 15px rgba(0, 0, 0, 0.15);
   color: var(--color-text);
-  margin: 3rem auto;
+  margin: 3rem 0;
   max-width: var(--width-content);
   padding: 2rem 3rem;
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  .section {
+    margin: 3rem auto;
+  }
 }
 
 .dark {

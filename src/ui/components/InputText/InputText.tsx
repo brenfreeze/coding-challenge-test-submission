@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import $ from "./InputText.module.css";
 
-interface InputTextProps {
+interface InputTextProps{
   name: string;
   placeholder: string;
   value: string;
